@@ -57,8 +57,8 @@ function move(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 500;
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 500;
     })
     .attr("transform", function(){
       var angle = -30;
@@ -79,8 +79,8 @@ function move2(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 1000; //angle 40
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 1000; //angle 40
     })
     .attr("transform", function(){
       var angle = -50;
@@ -99,8 +99,8 @@ function move3(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 1500; //angle 40
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 1500; //angle 40
     })
     .attr("transform", function(){
       var angle = -70;    
@@ -118,8 +118,8 @@ function move4(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 2000;
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 2000;
     })
     .attr("transform", function(){      
        var angle = -90;
@@ -139,8 +139,8 @@ function move5(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 2500;
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 2500;
     })
     .attr("transform", function(){      
        var angle = -110;
@@ -159,8 +159,8 @@ function move6(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 3000;
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 3000;
     })
     .attr("transform", function(){      
        var angle = -130;
@@ -179,8 +179,8 @@ function move7(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 3500;
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 3500;
     })
     .attr("transform", function(){      
        var angle = -150;
@@ -199,8 +199,8 @@ function move8(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 4000;
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 4000;
     })
     .attr("transform", function(){      
        var angle = -170;
@@ -219,8 +219,8 @@ function move9(d) {
     .delay(function(d, i) {
       var a = Math.abs((width/2)-x1);
       var b = Math.abs((height/2)-y1);
-      var c = Math.sqrt((a^2)+(b^2))
-      return c*150 + 4500;
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + 4500;
     })
     .attr("transform", function(){      
        var angle = -180;
