@@ -7,7 +7,7 @@ body {
 }
 
 .lines {
-stroke: rgba(255,255,255,0.25);
+stroke: rgba(255,255,255,0.1);
   /*stroke: rgba(14,22,82,0.1);*/
   stroke-width: 1;
 }
@@ -24,9 +24,10 @@ var svg = d3.select("svg"),
 
     var svg = d3.select("svg")
     var linebox = svg.append("g");
-    var lineLength = 110;
+    var lineLength = 50;
     var θ = 10; // angle
-    var multiplier = 20
+    var multiplier = 10;
+    var speed = 200;
 
     for (var i = 0; i < (width / multiplier); i++) {      
       for (var j = 0; j < (height / multiplier); j++) {
@@ -64,12 +65,12 @@ function ripple(d,x0,y0,t,end) {
   var y1 = d.y1.animVal.value;
   d3.select(d)
     .transition()
-    .duration(500)
+    .duration(speed)
     .delay(function(d, i) {
       var a = Math.abs((x0)-x1);
       var b = Math.abs((y0)-y1);
-      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,3));
-      return c*10 + (t*500) + 500; //angle 40
+      var c = Math.sqrt(Math.pow(a,3)+Math.pow(b,3));
+      return c*10 + (t*speed) + speed; //angle 40
     })
     // .attr("stroke-width",2)
     .attr("transform", function(){
@@ -77,7 +78,7 @@ function ripple(d,x0,y0,t,end) {
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
     })
   t += 1;
-  if (t < 100) {
+  if (t < 57) {
     ripple(d,x0,y0,t)    
   }
 }
