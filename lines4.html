@@ -80,24 +80,24 @@ function move2(d) {
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
     })
 
-  // move3(d)
+  move3(d)
 }
 
-// function move3(d) {  
-//   var x1 = d.x1.animVal.value;
-//   var y1 = d.y1.animVal.value;
-//   d3.select(d)
-//     .transition()
-//     .duration(1000)
-//     .delay(function(d, i) {
-//       return y1 * x1*0.008 + 5000; //angle 40
-//     })
-//     .attr("transform", function(){
-//       var angle = -45;    
-//       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
-//     })
-//   move4(d)
-// }
+function move3(d) {  
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(1000)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 5000; //angle 40
+    })
+    .attr("transform", function(){
+      var angle = -45;    
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+  move4(d)
+}
 
 function move4(d) {  
   //Move to bottom
@@ -107,7 +107,7 @@ function move4(d) {
     .transition()
     .duration(500)
     .delay(function(d, i) {
-      return y1 * x1*0.008 + 3000;
+      return y1 * x1*0.008 + 7000;
     })
     .attr("transform", function(){      
       var x = Math.acos((x1/(height)));
@@ -126,7 +126,7 @@ function move5(d) {
     .transition()
     .duration(500)
     .delay(function(d, i) {
-      return y1 * x1*0.008 + 5000;
+      return y1 * x1*0.008 + 9000;
     })
     .attr("transform", function(){
       var x = Math.asin((y1/(height)));
@@ -145,7 +145,7 @@ function move4a(d) {
     .transition()
     .duration(500)
     .delay(function(d, i) {
-      return y1 * x1*0.008 + 7000;
+      return y1 * x1*0.008 + 11000;
     })
     .attr("transform", function(){      
       var x = Math.acos((x1/(height)));
@@ -164,7 +164,7 @@ function move5a(d) {
     .transition()
     .duration(500)
     .delay(function(d, i) {
-      return y1 * x1*0.008 + 9000;
+      return y1 * x1*0.008 + 13000;
     })
     .attr("transform", function(){
       var x = Math.asin((y1/(height)));
@@ -183,7 +183,7 @@ function move6(d) {
     .transition()
     .duration(1000)
     .delay(function(d, i) {
-      return y1 * x1*0.008 + 11000;
+      return y1 * x1*0.008 + 15000;
     })
     .attr("transform", function(){
       // var angle = Math.random()*360;
@@ -202,7 +202,7 @@ function move7(d) {
     .transition()
     .duration(1000)
     .delay(function(d, i) {
-      return y1 * x1*0.008 + 13000;
+      return y1 * x1*0.008 + 17000;
     })
     .attr("transform", function(){
       var angle = 0;
