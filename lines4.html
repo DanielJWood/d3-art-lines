@@ -1,0 +1,216 @@
+---
+layout: default
+---
+ <style type="text/css">
+body {
+  background: #000;
+}
+
+.lines {
+  stroke: #fff;
+  stroke-width: 1;
+}
+
+    </style>
+<div style="height: 100px;"></div>
+<svg width="500" height="500"> 
+</svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height")    
+
+    var svg = d3.select("svg")
+    var linebox = svg.append("g");
+    var lineLength = 10;
+    var θ = 10; // angle
+
+    for (var i = 0; i < (width / 10); i++) {      
+      for (var j = 0; j < (height / 10); j++) {
+        var x1 = i * 10;
+        var y1 = j * 10;
+        var x2 = i * 10;
+        var y2 = (j * 10) + lineLength;
+
+        svg.append("line")          
+          .attr("x1",x1)
+          .attr("y1",y1)
+          .attr("x2",x2)
+          .attr("y2",y2) 
+          .attr("class","lines")
+          // .attr("transform", "rotate(" + θ + "," + x1 + "," + (y1 + (lineLength/2))+ ")")
+      }
+    }
+      
+d3.selectAll('.lines').each(move);
+
+function move(d) {  
+  //Move to bottom
+  var x1 = this.x1.animVal.value;
+  var y1 = this.y1.animVal.value;
+  d3.select(this)
+    .transition()
+    .duration(1000)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 1000;
+    })
+    .attr("transform", function(){
+      var angle = -45;
+      // var angle = Math.random()*360;
+      // return  "rotate(" + (Math.random()*360) + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  move4(this)
+};
+
+// function move2(d) {  
+//   var x1 = d.x1.animVal.value;
+//   var y1 = d.y1.animVal.value;
+//   d3.select(d)
+//     .transition()
+//     .duration(1000)
+//     .delay(function(d, i) {
+//       return y1 * x1*0.008 + 3000; //angle 40
+//     })
+//     .attr("transform", function(){
+//       var angle = Math.random()*90;
+//       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+//     })
+
+//   move3(d)
+// }
+
+// function move3(d) {  
+//   var x1 = d.x1.animVal.value;
+//   var y1 = d.y1.animVal.value;
+//   d3.select(d)
+//     .transition()
+//     .duration(1000)
+//     .delay(function(d, i) {
+//       return y1 * x1*0.008 + 5000; //angle 40
+//     })
+//     .attr("transform", function(){
+//       var angle = -45;    
+//       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+//     })
+//   move4(d)
+// }
+
+function move4(d) {  
+  //Move to bottom
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(500)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 3000;
+    })
+    .attr("transform", function(){      
+      var x = Math.acos((x1/(height)));
+      var angle = x * 1000;
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  move5(d)
+};
+
+function move5(d) {  
+  //Move to bottom
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(500)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 5000;
+    })
+    .attr("transform", function(){
+      var x = Math.asin((y1/(height)));
+      var angle = x * 1000;
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  move4a(d)
+};
+
+function move4a(d) {  
+  //Move to bottom
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(500)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 7000;
+    })
+    .attr("transform", function(){      
+      var x = Math.acos((x1/(height)));
+      var angle = x * 1000;
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  move5a(d)
+};
+
+function move5a(d) {  
+  //Move to bottom
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(500)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 9000;
+    })
+    .attr("transform", function(){
+      var x = Math.asin((y1/(height)));
+      var angle = x * 1000;
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  move6(d)
+};
+
+function move6(d) {  
+  //Move to bottom
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(1000)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 11000;
+    })
+    .attr("transform", function(){
+      // var angle = Math.random()*360;
+      var angle = -45;
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  move7(d)
+};
+
+function move7(d) {  
+  //Move to bottom
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(1000)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 13000;
+    })
+    .attr("transform", function(){
+      var angle = 0;
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  // move4(d)
+};
+
+
+</script>

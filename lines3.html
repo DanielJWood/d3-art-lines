@@ -1,0 +1,115 @@
+---
+layout: default
+---
+ <style type="text/css">
+body {
+  background: #000;
+}
+
+.lines {
+  stroke: #fff;
+  stroke-width: 1;
+}
+
+    </style>
+<div style="height: 100px;"></div>
+<svg width="500" height="500">
+    <g stroke="steelblue" stroke-width="12" stroke-linecap="round">
+   <!-- <line x1="500" y1="20" x2="500" y2="200" transform="rotate(0  500 100)" /> -->
+  </g>
+
+
+</svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height")    
+
+    var svg = d3.select("svg")
+    var linebox = svg.append("g");
+    var lineLength = 15;
+    var θ = 90; // angle
+
+    for (var i = 0; i < (width / 10); i++) {      
+      for (var j = 0; j < (height / 10); j++) {
+        var x1 = i * 10;
+        var y1 = j * 30;
+        var x2 = i * 20;
+        var y2 = (j * 20) + (1*lineLength);
+
+        svg.append("line")          
+          .attr("x1",x1)
+          .attr("y1",y1)
+          .attr("x2",x2)
+          .attr("y2",y2) 
+          .attr("class","lines")
+          // .attr("transform", "rotate(" + θ + "," + x1 + "," + (y1 + (lineLength/2))+ ")")
+      }
+    }
+      
+d3.selectAll('.lines').each(move);
+
+function move(d) {
+  //Move to bottom
+  var x1 = this.x1.animVal.value;
+  var y1 = this.y1.animVal.value;
+  d3.select(this)
+    .transition()
+    .duration(1000)
+    .delay(function(d, i) {
+      // return y1 * x1*0.008;
+      // return y1 * 10; //angle 40
+      // return x1 * 10; //angle 40
+      // return x1 ;
+      return y1 ;
+      // return y1 * x1*0.008; // angle 50
+      // return y1 * x1*.02 / lineLength; //angle 100
+      // return 10000 * Math.random();
+    })
+    // .style("stroke", "red")
+    .attr("transform", function(){
+      // var angle = Math.cos(Math.PI)
+      var angle = 180;
+      // return  "rotate(" + (Math.random()*360) + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  // move2(this)
+};
+
+function move2(d) {
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(1000)
+    .delay(function(d, i) {
+      return x1 * 10; //angle 40
+    })
+    .attr("transform", function(){
+      var angle = 30;
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+
+  // move3(this)
+}
+
+// function move3(d) {
+//   var x1 = d.x1.animVal.value;
+//   var y1 = d.y1.animVal.value;
+//   d3.select(d)
+//     .transition()
+//     .duration(1000)
+//     .delay(function(d, i) {
+//       return x1*y1 * 10 + 2000; //angle 40
+//     })
+//     .attr("transform", function(){
+//       var angle = 0;
+//       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+//     })
+
+// }
+
+</script>
