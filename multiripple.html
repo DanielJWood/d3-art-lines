@@ -45,15 +45,15 @@ var svg = d3.select("svg"),
     }
       
 d3.selectAll('.lines').each(drop);
-// d3.selectAll('.lines').each(drop4);
-// d3.selectAll('.lines').each(drop2);
-// d3.selectAll('.lines').each(drop3);
+d3.selectAll('.lines').each(drop4);
+d3.selectAll('.lines').each(drop2);
+d3.selectAll('.lines').each(drop3);
 
 
 
 function drop(d) {  
-  var x0 = width/2;
-  var y0 = height/2;
+  var x0 = width/4;
+  var y0 = height/5;
   var t = 0;
   var end = t + 3;
   ripple(this,x0,y0,t,end)
@@ -101,7 +101,7 @@ function ripple(d,x0,y0,t,end) {
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
     })
   t += 1;
-  if (t < 6) {
+  if (t < 10) {
     ripple(d,x0,y0,t)    
   }
 }
