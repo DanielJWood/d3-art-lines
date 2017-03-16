@@ -1,0 +1,108 @@
+---
+layout: default
+---
+ <style type="text/css">
+body {
+  background: #fff;
+}
+
+.lines {
+  stroke: rgba(14,22,82,0.1);
+  stroke-width: 10;
+}
+
+    </style>
+<div style="height: 100px;"></div>
+<svg width="400" height="400"> 
+</svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height")    
+
+    var svg = d3.select("svg")
+    var linebox = svg.append("g");
+    var lineLength = 80;
+    var θ = 10; // angle
+
+    for (var i = 0; i < (width / 10); i++) {      
+      for (var j = 0; j < (height / 10); j++) {
+        var x1 = i * 10;
+        var y1 = j * 10;
+        var x2 = i * 10;
+        var y2 = (j * 10) + lineLength;
+
+        svg.append("line")          
+          .attr("x1",x1)
+          .attr("y1",y1)
+          .attr("x2",x2)
+          .attr("y2",y2) 
+          .attr("class","lines")
+      }
+    }
+      
+d3.selectAll('.lines').each(drop);
+// d3.selectAll('.lines').each(drop4);
+// d3.selectAll('.lines').each(drop2);
+// d3.selectAll('.lines').each(drop3);
+
+
+
+function drop(d) {  
+  var x0 = width/2;
+  var y0 = height/2;
+  var t = 0;
+  var end = t + 3;
+  ripple(this,x0,y0,t,end)
+};
+
+function drop2(d) {  
+  var x0 = 4*width/6;
+  var y0 = 4*height/8;
+  var t =10;
+  var end = t + 7;
+  ripple(this,x0,y0,t,end)
+}
+
+function drop3(d) {  
+  var x0 = 7*width/6;
+  var y0 = 2*height/9;
+  var t = 4;
+  var end = t + 9;
+  ripple(this,x0,y0,t,end)
+}
+
+function drop4(d) {  
+  var x0 = 2*width/4;
+  var y0 = height/5;
+  var t = 0;
+  var end = 10;
+  ripple(this,x0,y0,t,end)
+};
+
+function ripple(d,x0,y0,t,end) {  
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(500)
+    .delay(function(d, i) {
+      var a = Math.abs((x0)-x1);
+      var b = Math.abs((y0)-y1);
+      var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
+      return c*10 + (t*500) + 500; //angle 40
+    })
+    // .attr("stroke-width",2)
+    .attr("transform", function(){
+      var angle = 30 + (t*30);
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
+  t += 1;
+  if (t < 100) {
+    ripple(d,x0,y0,t)    
+  }
+}
+
+</script>

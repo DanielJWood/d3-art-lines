@@ -63,25 +63,25 @@ function move(d) {
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
     })
 
-  move4(this)
+  move2(this)
 };
 
-// function move2(d) {  
-//   var x1 = d.x1.animVal.value;
-//   var y1 = d.y1.animVal.value;
-//   d3.select(d)
-//     .transition()
-//     .duration(1000)
-//     .delay(function(d, i) {
-//       return y1 * x1*0.008 + 3000; //angle 40
-//     })
-//     .attr("transform", function(){
-//       var angle = Math.random()*90;
-//       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
-//     })
+function move2(d) {  
+  var x1 = d.x1.animVal.value;
+  var y1 = d.y1.animVal.value;
+  d3.select(d)
+    .transition()
+    .duration(1000)
+    .delay(function(d, i) {
+      return y1 * x1*0.008 + 3000; //angle 40
+    })
+    .attr("transform", function(){
+      var angle = Math.random()*90;
+      return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
+    })
 
-//   move3(d)
-// }
+  // move3(d)
+}
 
 // function move3(d) {  
 //   var x1 = d.x1.animVal.value;
