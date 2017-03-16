@@ -7,8 +7,8 @@ body {
 }
 
 .lines {
-  stroke: lightblue;
-  stroke-width: 1;
+  stroke: rgba(0,255,255,0.5);
+  stroke-width: 10;
 }
 
     </style>
@@ -41,7 +41,6 @@ var svg = d3.select("svg"),
           .attr("x2",x2)
           .attr("y2",y2) 
           .attr("class","lines")
-          // .attr("transform", "rotate(" + θ + "," + x1 + "," + (y1 + (lineLength/2))+ ")")
       }
     }
       
@@ -60,6 +59,7 @@ function move(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 500;
     })
+    // .attr("stroke-width",1)
     .attr("transform", function(){
       var angle = -30;
       // var angle = Math.random()*360;
@@ -82,6 +82,7 @@ function move2(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 1000; //angle 40
     })
+    // .attr("stroke-width",2)
     .attr("transform", function(){
       var angle = -50;
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
@@ -102,6 +103,7 @@ function move3(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 1500; //angle 40
     })
+    // .attr("stroke-width",3)
     .attr("transform", function(){
       var angle = -70;    
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
@@ -121,6 +123,7 @@ function move4(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 2000;
     })
+    // .attr("stroke-width",4)
     .attr("transform", function(){      
        var angle = -90;
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
@@ -142,6 +145,7 @@ function move5(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 2500;
     })
+    // .attr("stroke-width",5)
     .attr("transform", function(){      
        var angle = -110;
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
@@ -162,6 +166,7 @@ function move6(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 3000;
     })
+    // .attr("stroke-width",6)
     .attr("transform", function(){      
        var angle = -130;
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
@@ -182,6 +187,7 @@ function move7(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 3500;
     })
+    // .attr("stroke-width",7)
     .attr("transform", function(){      
        var angle = -150;
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
@@ -202,6 +208,7 @@ function move8(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 4000;
     })
+    // .attr("stroke-width",8)
     .attr("transform", function(){      
        var angle = -170;
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
@@ -222,10 +229,11 @@ function move9(d) {
       var c = Math.sqrt(Math.pow(a,2)+Math.pow(b,2));
       return c*10 + 4500;
     })
+    // .attr("stroke-width",9)
     .attr("transform", function(){      
        var angle = -180;
       return  "rotate(" + angle + "," + x1 + "," + (y1 + (lineLength/2))+ ")";
-    })
+    })    
 
   // move9(d)
 };
