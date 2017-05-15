@@ -1,0 +1,188 @@
+---
+layout: default
+---
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.dot circle {
+  fill: transparent;
+  /*stroke: black;*/
+  /*stroke-width: 1px;*/
+}
+
+.dot circle.a {fill: black} 
+.dot circle.b {fill: #ff00ff} 
+.dot circle.c {fill: #04ffff} 
+.dot circle.d {fill: #04ff00} 
+.dot circle.d {fill: #04ff00} 
+.dot circle.e {fill: red} 
+.dot circle.f {fill: steelblue} 
+.dot circle.g {fill: chartreuse} 
+
+.dot circle.dragging {
+  fill: red;
+  stroke: brown;
+}
+
+.axis line {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+  vector-effect: non-scaling-stroke;
+}
+
+</style>
+<body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+var margin = {top: -5, right: -5, bottom: -5, left: -5},
+    width = 1160 - margin.left - margin.right,
+    height =width/2 - margin.top - margin.bottom;
+
+var scale = 1;
+
+var zoom = d3.behavior.zoom()
+    .scaleExtent([0.000005, 50000])
+    .center([width/2,height/2])
+    .on("zoom", zoomed);
+
+// var drag = d3.behavior.drag()
+//     .origin(function(d) { return d; })
+//     .on("dragstart", dragstarted)
+//     .on("drag", dragged)
+//     .on("dragend", dragended);
+
+// Converts from degrees to radians.
+Math.radians = function(degrees) {
+  return degrees * Math.PI / 180;
+};
+
+function spiral(angle,a,b,id){
+  var rad = Math.radians(angle);
+  var radius = a*Math.exp(b*rad);
+  var x = radius*Math.cos(rad);
+  var y = radius*Math.sin(rad);
+
+  var solution = {
+    "id":id,
+    "angle":angle,
+    "radians":Math.radians(angle),
+    "r":radius,
+    "x":x,
+    "y":y
+  }
+  return solution;
+}
+
+
+var type1 = [];
+for (var i = 0; i < 1000; i++) {  
+  var angle = i*1;  
+  type1.push(spiral(angle,1,1,"a"))
+  type1.push(spiral(angle,0.1,0.1,"b"))
+  type1.push(spiral(angle,1,0.1,"c"))
+  type1.push(spiral(angle,0.1,1,"d"))
+  type1.push(spiral(angle,0.5,1,"e"))
+  type1.push(spiral(angle,0.01,1,"f"))
+  type1.push(spiral(angle,0.001,1,"g"))
+}
+
+console.log(type1)
+
+
+
+
+
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+    .call(zoom);
+
+var rect = svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("fill", "none")
+    .style("pointer-events", "all");
+
+var container = svg.append("g");
+
+container.append("g")
+    .attr("class", "x axis")
+  .selectAll("line")
+    .data(d3.range(0, width, 10))
+  .enter().append("line")
+    .attr("x1", function(d) { return d; })
+    .attr("y1", 0)
+    .attr("x2", function(d) { return d; })
+    .attr("y2", height);
+
+container.append("g")
+    .attr("class", "y axis")
+  .selectAll("line")
+    .data(d3.range(0, height, 10))
+  .enter().append("line")
+    .attr("x1", 0)
+    .attr("y1", function(d) { return d; })
+    .attr("x2", width)
+    .attr("y2", function(d) { return d; });
+
+d3.tsv("dats.tsv", dottype, function(error, dots) {
+
+
+  // dot = container.append("g")
+  //     .attr("class", "dot")
+  //   .selectAll("circle")
+  //     .data(dots)
+  //   .enter().append("circle")
+  //     .attr("r", function(d)             { return d.r/(10) })
+  //     .style("stroke-width",function(d)  { return d.r/(100)  })
+  //     .attr("class",function(d) { return d.id })
+  //     .attr("cx", function(d) { return (d.x*scale) + width/2; })
+  //     .attr("cy", function(d) { return (d.y*scale) + height/2; })
+      // .call(drag);
+  
+  dot = container.append("g")
+      .attr("class", "dot")
+    .selectAll("circle")
+      .data(type1)
+    .enter().append("circle")
+      .attr("r", function(d)             { return d.r/(10) })
+      .style("stroke-width",function(d)  { return d.r/(100)  })
+      .attr("class",function(d) { return d.id })
+      .attr("cx", function(d) { return (d.x*scale) + width/2; })
+      .attr("cy", function(d) { return (d.y*scale) + height/2; })
+
+});
+
+function dottype(d) {
+  d.x = +d.x;
+  d.y = +d.y;
+  return d;
+}
+
+function zoomed() {
+  container.attr("transform", function(d){    
+    return "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")"
+  });
+}
+
+// function dragstarted(d) {
+//   d3.event.sourceEvent.stopPropagation();
+//   d3.select(this).classed("dragging", true);
+// }
+
+// function dragged(d) {
+//   d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+// }
+
+// function dragended(d) {
+//   d3.select(this).classed("dragging", false);
+// }
+
+</script>
