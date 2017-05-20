@@ -81,16 +81,34 @@ function spiral(angle,a,b,id){
 var type1 = [];
 for (var i = 0; i < 1000; i++) {  
   var angle = i*1;  
-  type1.push(spiral(angle,1,1,"a"))
-  type1.push(spiral(angle,0.1,0.1,"b"))
-  type1.push(spiral(angle,1,0.1,"c"))
-  type1.push(spiral(angle,0.1,1,"d"))
-  type1.push(spiral(angle,0.5,1,"e"))
-  type1.push(spiral(angle,0.01,1,"f"))
-  type1.push(spiral(angle,0.001,1,"g"))
+  // type1.push(spiral(angle,1,1,"a"))
+  // type1.push(spiral(angle,0.1,0.1,"b"))
+  // type1.push(spiral(angle,1,0.1,"c"))
+  // type1.push(spiral(angle,0.1,1,"d"))
+  // type1.push(spiral(angle,0.06,1,"c"))
+  // type1.push(spiral(angle,0.12,1,"c"))
+  // type1.push(spiral(angle,0.25,1,"c"))
+  // type1.push(spiral(angle,0.5,1,"c"))
+  // type1.push(spiral(angle,1,1,"c"))
+  // type1.push(spiral(angle,2,1,"c"))
+  // type1.push(spiral(angle,3,1,"c"))
+  // type1.push(spiral(angle,4,1,"c"))
+  // type1.push(spiral(angle,5,1,"c"))
+  // type1.push(spiral(angle,0.01,1,"f"))
+  // type1.push(spiral(angle,0.001,1,"g"))
+  type1.push(spiral(angle,1,1,"c"))
+  // type1.push(spiral(angle,0.5,0.156,"c"))
+  // type1.push(spiral(angle,0.5,0.156,"c"))
+  // type1.push(spiral(angle,0.5,0.156,"c"))
+  // type1.push(spiral(angle,0.5,0.156,"c"))
+  // type1.push(spiral(angle,0.5,0.156,"c"))
+  // type1.push(spiral(angle,0.5,0.156,"c"))
+  // type1.push(spiral(angle,0.5,0.156,"c"))
+  // type1.push(spiral(angle,0.5,0.156,"c"))
+
 }
 
-console.log(type1)
+// console.log(type1)
 
 
 
@@ -132,7 +150,7 @@ container.append("g")
     .attr("x2", width)
     .attr("y2", function(d) { return d; });
 
-d3.tsv("dats.tsv", dottype, function(error, dots) {
+// d3.tsv("dats.tsv", dottype, function(error, dots) {
 
 
   // dot = container.append("g")
@@ -152,13 +170,20 @@ d3.tsv("dats.tsv", dottype, function(error, dots) {
     .selectAll("circle")
       .data(type1)
     .enter().append("circle")
-      .attr("r", function(d)             { return d.r/(10) })
-      .style("stroke-width",function(d)  { return d.r/(100)  })
+      .attr("r", function(d)             { return d.r/(100) })
+      // .style("stroke-width",function(d)  { return d.r/(10)  })
       .attr("class",function(d) { return d.id })
       .attr("cx", function(d) { return (d.x*scale) + width/2; })
       .attr("cy", function(d) { return (d.y*scale) + height/2; })
+// });
 
-});
+dot.transition().duration(1000)
+      .attr("cx", function(d) { return (d.x*scale/2) + width/2; })
+      .attr("cy", function(d) { return (d.y*scale/2) + height/2; })
+
+dot.transition().duration(1000)
+      .attr("cx", function(d) { return (d.x*scale/4) + width/2; })
+      .attr("cy", function(d) { return (d.y*scale/4) + height/2; })      
 
 function dottype(d) {
   d.x = +d.x;

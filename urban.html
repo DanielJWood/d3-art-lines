@@ -1,0 +1,189 @@
+---
+layout: default
+---
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  body {
+    font: 10px sans-serif;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .dot {
+    opacity: 0.75;
+  }
+</style>
+<body>
+This is my example of a chart I would use to investigate the school distance data.
+<button onclick="home()" type="button">All Population</button>
+<button onclick="white()" type="button">White</button>
+<button onclick="black()" type="button">Black</button>
+<button onclick="hispanic()" type="button">Hispanic</button>
+<button onclick="asian()" type="button">Asian</button>
+<button onclick="two()" type="button">Two or more</button>
+<button onclick="other()" type="button">Other</button>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+  function white() {
+   svg.selectAll(".dot")
+      .transition()
+      .attr("r", function(d) { 
+        return d.grade_1_5_white / 250 * 20;
+      })
+  }
+
+  function black() {
+   svg.selectAll(".dot")
+      .transition()
+      .attr("r", function(d) { 
+        return d.grade_1_5_black / 250 * 20;
+      })
+  }
+
+  function hispanic() {
+   svg.selectAll(".dot")
+      .transition()
+      .attr("r", function(d) { 
+        return d.grade_1_5_Hisp / 250 * 20;
+      })
+  }
+
+  function home() {
+    console.log('test')
+   svg.selectAll(".dot")
+      .transition()
+      .attr("r", function(d) { 
+        if (d.pov_prop === 0.0000001) {
+          return 0.0000001;
+        } else {
+          return d.population / 200;
+        }
+      })      
+  }
+
+  function two() {
+   svg.selectAll(".dot")
+      .transition()
+      .attr("r", function(d) { 
+        return d.grade_1_5_two / 250 * 20;
+      })
+  }
+
+  function other() {
+     svg.selectAll(".dot")
+        .transition()
+        .attr("r", function(d) { 
+          return d.grade_1_5_other / 250 * 20;
+        })
+    }
+
+  function asian() {
+
+   svg.selectAll(".dot")
+      .transition()
+      .attr("r", function(d) { 
+        return d.grade_1_5_asian / 250 * 20;
+      })      
+  }
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var color = d3.scale.category10();
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.csv("urban.csv", function(error, data) {
+  if (error) throw error;
+
+  data.forEach(function(d) {
+    d.pov_prop = +d.pov_prop;
+    d.grade_1_5_white = +d.grade_1_5_white;
+    d.grade_1_5_two = +d.grade_1_5_two;
+    d.grade_1_5_other = +d.grade_1_5_other;
+    d.grade_1_5_Haw_PI = +d.grade_1_5_Haw_PI;
+    d.grade_1_5_asian = +d.grade_1_5_asian;
+    d.grade_1_5_Am_ind = +d.grade_1_5_Am_ind;
+    d.grade_1_5_black = +d.grade_1_5_black;
+    d.grade_1_5_Hisp = +d.grade_1_5_Hisp;
+    d.tractce = +d.tractce;
+    d.blkgrpce = +d.blkgrpce;
+    d.statefp = +d.statefp;
+    d.population = +d.population;
+    d.dis_rating_above_6 = +d.dis_rating_above_6;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.dis_rating_above_6; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.pov_prop; })).nice();
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("average driving distance for k-12 students in block group to a school with a GreatSchools rating over 6");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Proportion of families below the poverty line")
+
+  svg.selectAll(".dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", function(d) { 
+        if (d.pov_prop === 0.0000001) {
+          return 0.0000001;
+        } else {
+          return d.population / 200;
+        }
+      })
+      .attr("cx", function(d) { return x(d.dis_rating_above_6); })
+      .attr("cy", function(d) { return y(d.pov_prop); })
+      .style("fill", function(d) { 
+        return "steelblue"
+        // return color(d.species); 
+      });
+  
+
+
+});
+</script>
