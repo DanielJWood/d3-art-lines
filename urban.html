@@ -21,16 +21,47 @@ layout: default
   }
 </style>
 <body>
-This is my example of a chart I would use to investigate the school distance data.
+This is my example of a chart I would use to investigate the school distance data.<br>
 <button onclick="home()" type="button">All Population</button>
-<button onclick="white()" type="button">White</button>
 <button onclick="black()" type="button">Black</button>
+<button onclick="white()" type="button">White</button>
 <button onclick="hispanic()" type="button">Hispanic</button>
 <button onclick="asian()" type="button">Asian</button>
 <button onclick="two()" type="button">Two or more</button>
 <button onclick="other()" type="button">Other</button>
+<br>
+<button onclick="noward()" type="button">No Ward</button>
+<button onclick="ward(1)" type="button">Ward 1</button>
+<button onclick="ward(2)" type="button">Ward 2</button>
+<button onclick="ward(3)" type="button">Ward 3</button>
+<button onclick="ward(4)" type="button">Ward 4</button>
+<button onclick="ward(5)" type="button">Ward 5</button>
+<button onclick="ward(6)" type="button">Ward 6</button>
+<button onclick="ward(7)" type="button">Ward 7</button>
+<button onclick="ward(8)" type="button">Ward 8</button>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
+
+  function noward() {
+   svg.selectAll(".dot")
+      .transition()
+      .style("opacity", function(d) { 
+          return 0.75;
+      })
+  }
+
+  function ward(x) {
+   svg.selectAll(".dot")
+      .transition()
+      .style("opacity", function(d) { 
+        if (d.ward != x) {
+          return 0;
+        } else {
+          return 0.75;
+        }
+        
+      })
+  }
 
   function white() {
    svg.selectAll(".dot")
@@ -57,7 +88,7 @@ This is my example of a chart I would use to investigate the school distance dat
   }
 
   function home() {
-    console.log('test')
+    // console.log('test')
    svg.selectAll(".dot")
       .transition()
       .attr("r", function(d) { 
@@ -120,10 +151,11 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("urban.csv", function(error, data) {
+d3.csv("urban2.csv", function(error, data) {
   if (error) throw error;
 
   data.forEach(function(d) {
+    // d.ward = +d.ward;
     d.pov_prop = +d.pov_prop;
     d.grade_1_5_white = +d.grade_1_5_white;
     d.grade_1_5_two = +d.grade_1_5_two;
@@ -179,10 +211,28 @@ d3.csv("urban.csv", function(error, data) {
       .attr("cx", function(d) { return x(d.dis_rating_above_6); })
       .attr("cy", function(d) { return y(d.pov_prop); })
       .style("fill", function(d) { 
-        return "steelblue"
-        // return color(d.species); 
+        // return "steelblue"
+        return color(d.ward); 
       });
   
+    var legend = svg.selectAll(".legend")
+      .data(color.domain())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + d * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; }); 
 
 
 });
