@@ -19,10 +19,40 @@ layout: default
   .dot {
     opacity: 0.75;
   }
+
+  .dot.average {
+    opacity: 0;
+    stroke: #000;
+    stroke-width:2px;
+    /*display: none;*/
+  }
+  .dot.ethnic {
+    opacity: 0;
+    fill-opacity:0.5;
+    stroke: #000;
+    stroke-width:2px;
+  }
+
+  .race-difference {
+    opacity: 1;
+  }
+
+  #context_container {
+    width:  300px;
+    left: 600px;
+    top: 10px;
+    position: absolute;
+    z-index: 1000;
+  }
+
+  #context {
+    font-size: 14px;
+  }
+
 </style>
 <body>
-This is my example of a chart I would use to investigate the school distance data.<br>
-<button onclick="home()" type="button">All Population</button>
+<!-- This is my example of a chart I would use to investigate the school distance data.<br>
+Filter by number of families of ethnicities present:<button onclick="home()" type="button">All Population</button>
 <button onclick="black()" type="button">Black</button>
 <button onclick="white()" type="button">White</button>
 <button onclick="hispanic()" type="button">Hispanic</button>
@@ -30,7 +60,7 @@ This is my example of a chart I would use to investigate the school distance dat
 <button onclick="two()" type="button">Two or more</button>
 <button onclick="other()" type="button">Other</button>
 <br>
-<button onclick="noward()" type="button">No Ward</button>
+Filter by Ward:<button onclick="noward()" type="button">All Wards</button>
 <button onclick="ward(1)" type="button">Ward 1</button>
 <button onclick="ward(2)" type="button">Ward 2</button>
 <button onclick="ward(3)" type="button">Ward 3</button>
@@ -38,93 +68,15 @@ This is my example of a chart I would use to investigate the school distance dat
 <button onclick="ward(5)" type="button">Ward 5</button>
 <button onclick="ward(6)" type="button">Ward 6</button>
 <button onclick="ward(7)" type="button">Ward 7</button>
-<button onclick="ward(8)" type="button">Ward 8</button>
+<button onclick="ward(8)" type="button">Ward 8</button> -->
+<div id="context_container">
+  <div id="context">
+    (1) Each dot shown here represents one census block within Washington, D.C. The size of each dot represents the relative size of the population within the block. 
+    <a href="#" onclick="first()">Next</a>    
+  </div>  
+</div>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script>
-
-  function noward() {
-   svg.selectAll(".dot")
-      .transition()
-      .style("opacity", function(d) { 
-          return 0.75;
-      })
-  }
-
-  function ward(x) {
-   svg.selectAll(".dot")
-      .transition()
-      .style("opacity", function(d) { 
-        if (d.ward != x) {
-          return 0;
-        } else {
-          return 0.75;
-        }
-        
-      })
-  }
-
-  function white() {
-   svg.selectAll(".dot")
-      .transition()
-      .attr("r", function(d) { 
-        return d.grade_1_5_white / 250 * 20;
-      })
-  }
-
-  function black() {
-   svg.selectAll(".dot")
-      .transition()
-      .attr("r", function(d) { 
-        return d.grade_1_5_black / 250 * 20;
-      })
-  }
-
-  function hispanic() {
-   svg.selectAll(".dot")
-      .transition()
-      .attr("r", function(d) { 
-        return d.grade_1_5_Hisp / 250 * 20;
-      })
-  }
-
-  function home() {
-    // console.log('test')
-   svg.selectAll(".dot")
-      .transition()
-      .attr("r", function(d) { 
-        if (d.pov_prop === 0.0000001) {
-          return 0.0000001;
-        } else {
-          return d.population / 200;
-        }
-      })      
-  }
-
-  function two() {
-   svg.selectAll(".dot")
-      .transition()
-      .attr("r", function(d) { 
-        return d.grade_1_5_two / 250 * 20;
-      })
-  }
-
-  function other() {
-     svg.selectAll(".dot")
-        .transition()
-        .attr("r", function(d) { 
-          return d.grade_1_5_other / 250 * 20;
-        })
-    }
-
-  function asian() {
-
-   svg.selectAll(".dot")
-      .transition()
-      .attr("r", function(d) { 
-        return d.grade_1_5_asian / 250 * 20;
-      })      
-  }
-
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -151,11 +103,191 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var context = document.getElementById("context")
+
+
+  var ethnic = [{"race":"white",
+"population":5546,
+"avdist":0.45059016,
+"avpov":0.038780949},
+{"race":"two",
+"population":1052,
+"avdist":0.543833421,
+"avpov":0.154787782},
+{"race":"other",
+"population":2001,
+"avdist":0.457126437,
+"avpov":0.169957938},
+{"race":"asian",
+"population":567,
+"avdist":0.444025886,
+"avpov":0.116327422},
+{"race":"black",
+"population":16942,
+"avdist":0.828219455,
+"avpov":0.316999483},
+{"race":"Hisp",
+"population":3967,
+"avdist":0.462353025,
+"avpov":0.17324934}]
+
+  function first() {
+  context.innerHTML = "(2) The y-axis shows us the proportion of families below the poverty line while the x-axis shows us the average distance kids in each block have to travel to get to school. <a href='#'' onclick='home()'>Next</a>"
+  }
+
+  function home() {
+    svg.selectAll(".dot.block")
+      .transition()
+      .style("fill", function(d) { 
+        // return "steelblue"
+        return color(d.ward); 
+      });
+
+    var legend = svg.selectAll(".legend")
+      .data(color.domain())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + d * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; }); 
+
+    context.innerHTML = "(3) To add some context, here is each block colored based on what ward its located in.  <a href='#'' onclick='average()'>Next</a>"
+  }
+  
+  function average() {   
+    svg.selectAll(".dot.average")
+      .transition()
+      .style("opacity","1");
+
+    svg.selectAll(".dot.block")
+      .transition()
+      .style("opacity","0.4");
+
+      context.innerHTML = "(4) We've now added a dot for each ward that represents the average poverty proportion and school distance within that ward. You can also explore each ward by clicking the following buttons. Filter by Ward:<button onclick='noward()' type='button'>All Wards</button><button onclick='ward(1)' type='button'>Ward 1</button><button onclick='ward(2)' type='button'>Ward 2</button><button onclick='ward(3)' type='button'>Ward 3</button><button onclick='ward(4)' type='button'>Ward 4</button><button onclick='ward(5)' type='button'>Ward 5</button><button onclick='ward(6)' type='button'>Ward 6</button><button onclick='ward(7)' type='button'>Ward 7</button><button onclick='ward(8)' type='button'>Ward 8</button><a href='#'' onclick='ethnicity()'>Next</a>"
+  }
+
+  function ethnicity() {  
+    svg.selectAll(".dot.average")
+      .transition()
+      .style("opacity","0.1");
+
+    svg.selectAll(".dot.block")
+      .transition()
+      .style("fill", function(d) { 
+        return "steelblue"
+        // return color(d.ward); 
+      })
+      .style("opacity", function(d) {         
+        return 0.75;
+      })
+    context.innerHTML = "(5) Let's now evaluate these blocks by what races are present within them. Scale by number of families of races present: <button onclick='zall()' type='button'>All Population</button><button onclick='callEthnic(\"black\",0)' type='button'>Black</button><button onclick='callEthnic(\"white\",0)' type='button'>White</button><button onclick='callEthnic(\"Hisp\",0)' type='button'>Hispanic</button><button onclick='callEthnic(\"asian\",0)' type='button'>Asian</button><button onclick='callEthnic(\"two\",0)' type='button'>Two or more</button><button onclick='callEthnic(\"other\",0)' type='button'>Other</button> <a href='#'' onclick='ethnicity2()'>Next</a>"
+  }
+
+  function ethnicity2() {   
+    svg.selectAll(".dot.ethnic")
+      .transition()
+      .style("opacity","1");
+
+    context.innerHTML = "(6) We've added points to show the average poverty proportion and school distance a family from each race is predicted to have. Filter again to see the corresponding average: <button onclick='zall()' type='button'>All Population</button><button onclick='callEthnic(\"black\",1)' type='button'>Black</button><button onclick='callEthnic(\"white\",1)' type='button'>White</button><button onclick='callEthnic(\"Hisp\",1)' type='button'>Hispanic</button><button onclick='callEthnic(\"asian\",1)' type='button'>Asian</button><button onclick='callEthnic(\"two\",1)' type='button'>Two or more</button><button onclick='callEthnic(\"other\",1)' type='button'>Other</button><a href='#'' onclick='conc1()'>Next</a>"
+  }
+
+  function conc1() {   
+    svg.selectAll(".dot.block")
+      .transition()      
+      .style("opacity", function(d) {         
+        return 0.1;
+      })
+
+    svg.selectAll(".dot.ethnic")
+      .transition()
+      .style("opacity", function(d) {                   
+          if (d.race === "black" || d.race === "white") {
+            return 0.75;
+          } else {
+            return 0.1;
+          }
+        });
+    console.log(ethnic[4].avdist)
+    svg.select(".race-difference")
+      .transition()
+      .duration(3000)
+      .attr("x2", x(ethnic[4].avdist))
+      .attr("y2", y(ethnic[4].avpov))
+      .style("opacity",1)
+
+    context.innerHTML = "(7) On average, Black families living in D.C. were from census blocks that were about 0.4 miles further from schools than White families. Additionally they had an average poverty proportion of about 32% compared to White families' 3%."
+  }
+
+  function noward() {
+   svg.selectAll(".dot.block")
+      .transition()
+      .style("opacity", function(d) { 
+          return 0.75;
+      })
+  }
+
+  function ward(z) {
+   svg.selectAll(".dot.block")
+      .transition()
+      .style("opacity", function(d) {         
+        if (d.ward != z) {
+          return 0.1;
+        } else {
+          return 0.75;
+        }
+      })
+  }
+
+  function zall() {
+   svg.selectAll(".dot.block")
+      .transition()
+      .attr("r", function(d) { 
+        if (d.pov_prop === 0.0000001) {
+          return 0.0000001;
+        } else {
+          return d.population / 200;
+        }
+      })
+  }
+
+  function callEthnic(type,s) {
+    svg.selectAll(".dot.block")
+      .transition()
+      .attr("r", function(d) { 
+        return d["grade_1_5_" + type] / 250 * 20;
+      })
+
+    if (s === 1) {
+      svg.selectAll(".dot.ethnic")
+        .transition()
+        .style("opacity", function(d) {                   
+          if (d.race != type) {
+            return 0.1;
+          } else {
+            return 0.75;
+          }
+        })
+    }
+  }
+
 d3.csv("urban2.csv", function(error, data) {
   if (error) throw error;
 
+  var averages =[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+
   data.forEach(function(d) {
-    // d.ward = +d.ward;
+    d.ward = +d.ward;
     d.pov_prop = +d.pov_prop;
     d.grade_1_5_white = +d.grade_1_5_white;
     d.grade_1_5_two = +d.grade_1_5_two;
@@ -170,6 +302,8 @@ d3.csv("urban2.csv", function(error, data) {
     d.statefp = +d.statefp;
     d.population = +d.population;
     d.dis_rating_above_6 = +d.dis_rating_above_6;
+
+    averages[d.ward] = [averages[d.ward][0]+d.pov_prop,averages[d.ward][1]+d.dis_rating_above_6,averages[d.ward][2]+1]
   });
 
   x.domain(d3.extent(data, function(d) { return d.dis_rating_above_6; })).nice();
@@ -197,10 +331,10 @@ d3.csv("urban2.csv", function(error, data) {
       .style("text-anchor", "end")
       .text("Proportion of families below the poverty line")
 
-  svg.selectAll(".dot")
+  svg.selectAll(".dot.block")
       .data(data)
     .enter().append("circle")
-      .attr("class", "dot")
+      .attr("class", "dot block")
       .attr("r", function(d) { 
         if (d.pov_prop === 0.0000001) {
           return 0.0000001;
@@ -211,29 +345,49 @@ d3.csv("urban2.csv", function(error, data) {
       .attr("cx", function(d) { return x(d.dis_rating_above_6); })
       .attr("cy", function(d) { return y(d.pov_prop); })
       .style("fill", function(d) { 
-        // return "steelblue"
-        return color(d.ward); 
+        return "steelblue"
+        // return color(d.ward); 
       });
-  
-    var legend = svg.selectAll(".legend")
-      .data(color.domain())
-    .enter().append("g")
-      .attr("class", "legend")
-      .attr("transform", function(d, i) { return "translate(0," + d * 20 + ")"; });
 
-  legend.append("rect")
-      .attr("x", width - 18)
-      .attr("width", 18)
-      .attr("height", 18)
-      .style("fill", color);
+    for (var i = 1; i < averages.length; i++) {
+      svg.append("circle")
+        .attr("class", "dot average")
+        .attr("r", function(d) { 
+          return "10"
+        })
+        .attr("cx", function(d) { return x((averages[i][1]/averages[i][2])); })
+        .attr("cy", function(d) { return y((averages[i][0]/averages[i][2])) })
+        .style("fill", function(d) { 
+          // return "steelblue"
+          return color(i); 
+        });
+    }
 
-  legend.append("text")
-      .attr("x", width - 24)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text(function(d) { return d; }); 
+    svg.selectAll(".dot.ethnic")
+      .data(ethnic)
+    .enter().append("circle")
+      .attr("class", "dot ethnic")
+      .attr("id",function(d){ return "ethnic-" + d.race;})
+      .attr("r", function(d) { 
+        // return 20;
+        return d.population / 200;
+      })
+      .attr("cx", function(d) { return x(d.avdist); })
+      .attr("cy", function(d) { return y(d.avpov); })
+      .style("fill", function(d) { 
+        return "yellow";
+        // return color(d.race)
+        // return color(d.ward); 
+      });
 
+    svg.append("line")
+      .attr("class", "race-difference")
+      .attr("x1", x(ethnic[0].avdist))
+      .attr("y1", y(ethnic[0].avpov))
+      .attr("x2", x(ethnic[0].avdist))
+      .attr("y2", y(ethnic[0].avpov))
+      .attr("stroke-width", 2)
+      .attr("stroke", "black");
 
 });
 </script>
