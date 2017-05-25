@@ -1,0 +1,148 @@
+---
+layout: default
+---
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  body {
+    font: 10px sans-serif;
+  }
+
+  path {
+    stroke-linecap: round;
+    cursor: pointer;
+  }
+
+</style>
+<body>
+<button onclick='change()' type='button'>Change</button>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+
+<script>
+  var k = 0;
+  var width = 700;
+  var height = 1000;
+  // var n = 2*height + 2*width;  
+  var minDir = 20;
+  var lastDir = 0;
+  var array = [];  
+  var jn = 50;
+
+  var lineFunction = d3.svg.line()
+    .x(function(d) { return d.x; })
+    .y(function(d) { return d.y; })
+    .interpolate("linear");
+
+  var lineFunction2 = d3.svg.line()
+    .x(function(d) { return d.x; })
+    .y(function(d) { return d.y; })
+    .interpolate("basis");
+
+  //The SVG Container
+  var svgContainer = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+  for (var j = 0; j < jn; j++) {
+    var x = ((width*j) / jn) + 0;
+    var n = (height / 2) + rnd2()*00;
+    array.push([]);
+    for (var i = Math.floor(Math.random()*1000) ; i < n; i++) {
+      lastDir += 1; 
+      //if length is past the minimum, find out if you turn
+      if (lastDir > minDir) {
+        // using a normal distribution, choose to turn (should be hard at first, easy later, then hard/rare again)
+        if (Math.random() < (lastDir-minDir)/30) {
+          array[j].push({"y":x,"x":i});
+          lastDir = 0; //restart the counter
+          // decide left/right
+          
+          if (x < ((width*j) / jn + 10) - 10) {
+            var direction = 1;
+          } else if (x > ((width*j) / jn + 10) + 10) {
+            var direction = -1;
+          } else {
+            var direction = boolean();          
+          }      
+          x += direction*Math.random()*40;
+          array[j].push({"y":x,"x":i});
+          if (Math.random()<0.90) {
+            i += Math.floor(-1*Math.random()*20);
+            array[j].push({"y":x,"x":i});
+            x += -1*direction*Math.random()*20;
+            array[j].push({"y":x,"x":i});
+          } 
+        }
+      }
+    }
+  }
+
+  function boolean() {
+    // console.log();
+    return Math.random() < 0.1 ? -1 : 1
+  }
+
+  function rnd2() {
+      return ((Math.random() + Math.random() + Math.random() + Math.random() + Math.random() + Math.random()) - 3 ) / 2;
+  }
+
+//The line SVG Path we draw
+var lineGraph = svgContainer.selectAll("path")
+  .data(array)
+  .enter().append("path")
+  .attr("d", function(d) {
+    return lineFunction2(d)
+  })
+  .attr("stroke", function(d,i) {
+    // var c = (i*360)/(jn);
+    var c = 250 - (i*250)/(jn);
+    // return "hsl(" + c + ",100%,50%)"
+    return "rgb(" + c + ",100,100)"
+  })
+  .attr("stroke-width", 2)
+  .attr("fill", "none")
+  .on("mouseover",function(d){
+
+    d3.select(this).transition().duration(1000)
+    .attr("stroke-width", 5)
+  })
+    .on("mouseout",function(d){
+   d3.select(this).transition().duration(3000).delay(2000)
+    .attr("stroke-width", 2)
+  });
+
+
+  // lineGraph.transition().delay(function(d,i){
+  //   return 30*i;
+  // }).duration(3000).attr("d",function(d){
+  //   for (var i = 0; i < d.length; i++) {
+  //     var xx = d[i].x;
+  //     var yy = d[i].y;
+  //     d[i].y = xx * 0.8;
+  //     d[i].x = yy + 300;
+  //   }
+  //   return lineFunction2(d)
+  // })
+
+
+  function change() {  
+    if (k === 0) {
+      k+=1;
+      lineGraph.transition().duration(0).attr("d", function(d) {
+        return lineFunction(d)
+      })
+    } else if (k === 1) {
+      k-=1;
+      lineGraph.transition().duration(0).attr("d", function(d) {
+        return lineFunction2(d)
+      })
+    }
+
+  }
+
+</script>
+
+
+

@@ -51,28 +51,10 @@ layout: default
 
 </style>
 <body>
-<!-- This is my example of a chart I would use to investigate the school distance data.<br>
-Filter by number of families of ethnicities present:<button onclick="home()" type="button">All Population</button>
-<button onclick="black()" type="button">Black</button>
-<button onclick="white()" type="button">White</button>
-<button onclick="hispanic()" type="button">Hispanic</button>
-<button onclick="asian()" type="button">Asian</button>
-<button onclick="two()" type="button">Two or more</button>
-<button onclick="other()" type="button">Other</button>
-<br>
-Filter by Ward:<button onclick="noward()" type="button">All Wards</button>
-<button onclick="ward(1)" type="button">Ward 1</button>
-<button onclick="ward(2)" type="button">Ward 2</button>
-<button onclick="ward(3)" type="button">Ward 3</button>
-<button onclick="ward(4)" type="button">Ward 4</button>
-<button onclick="ward(5)" type="button">Ward 5</button>
-<button onclick="ward(6)" type="button">Ward 6</button>
-<button onclick="ward(7)" type="button">Ward 7</button>
-<button onclick="ward(8)" type="button">Ward 8</button> -->
 <div id="context_container">
   <div id="context">
     (1) Each dot shown here represents one census block within Washington, D.C. The size of each dot represents the relative size of the population within the block. 
-    <a href="#" onclick="first()">Next</a>    
+    <a href="#" onclick="first()"> Next</a>    
   </div>  
 </div>
 <script src="//d3js.org/d3.v3.min.js"></script>
@@ -132,7 +114,7 @@ var context = document.getElementById("context")
 "avpov":0.17324934}]
 
   function first() {
-  context.innerHTML = "(2) The y-axis shows us the proportion of families below the poverty line while the x-axis shows us the average distance kids in each block have to travel to get to school. <a href='#'' onclick='home()'>Next</a>"
+  context.innerHTML = "(2) The y-axis shows us the proportion of families below the poverty line while the x-axis shows us the average distance kids in each block have to travel to get to school. <a href='#'' onclick='home()'> Next</a>"
   }
 
   function home() {
@@ -162,7 +144,7 @@ var context = document.getElementById("context")
       .style("text-anchor", "end")
       .text(function(d) { return d; }); 
 
-    context.innerHTML = "(3) To add some context, here is each block colored based on what ward its located in.  <a href='#'' onclick='average()'>Next</a>"
+    context.innerHTML = "(3) To add some context, here is each block colored based on what ward its located in.  <a href='#'' onclick='average()'> Next</a>"
   }
   
   function average() {   
@@ -174,7 +156,7 @@ var context = document.getElementById("context")
       .transition()
       .style("opacity","0.4");
 
-      context.innerHTML = "(4) We've now added a dot for each ward that represents the average poverty proportion and school distance within that ward. You can also explore each ward by clicking the following buttons. Filter by Ward:<button onclick='noward()' type='button'>All Wards</button><button onclick='ward(1)' type='button'>Ward 1</button><button onclick='ward(2)' type='button'>Ward 2</button><button onclick='ward(3)' type='button'>Ward 3</button><button onclick='ward(4)' type='button'>Ward 4</button><button onclick='ward(5)' type='button'>Ward 5</button><button onclick='ward(6)' type='button'>Ward 6</button><button onclick='ward(7)' type='button'>Ward 7</button><button onclick='ward(8)' type='button'>Ward 8</button><a href='#'' onclick='ethnicity()'>Next</a>"
+      context.innerHTML = "(4) We've now added a dot for each ward that represents the average poverty proportion and school distance within that ward. You can also explore each ward by clicking the following buttons. Filter by Ward:<button onclick='noward()' type='button'>All Wards</button><button onclick='ward(1)' type='button'>Ward 1</button><button onclick='ward(2)' type='button'>Ward 2</button><button onclick='ward(3)' type='button'>Ward 3</button><button onclick='ward(4)' type='button'>Ward 4</button><button onclick='ward(5)' type='button'>Ward 5</button><button onclick='ward(6)' type='button'>Ward 6</button><button onclick='ward(7)' type='button'>Ward 7</button><button onclick='ward(8)' type='button'>Ward 8</button><a href='#'' onclick='ethnicity()'> Next</a>"
   }
 
   function ethnicity() {  
@@ -191,7 +173,7 @@ var context = document.getElementById("context")
       .style("opacity", function(d) {         
         return 0.75;
       })
-    context.innerHTML = "(5) Let's now evaluate these blocks by what races are present within them. Scale by number of families of races present: <button onclick='zall()' type='button'>All Population</button><button onclick='callEthnic(\"black\",0)' type='button'>Black</button><button onclick='callEthnic(\"white\",0)' type='button'>White</button><button onclick='callEthnic(\"Hisp\",0)' type='button'>Hispanic</button><button onclick='callEthnic(\"asian\",0)' type='button'>Asian</button><button onclick='callEthnic(\"two\",0)' type='button'>Two or more</button><button onclick='callEthnic(\"other\",0)' type='button'>Other</button> <a href='#'' onclick='ethnicity2()'>Next</a>"
+    context.innerHTML = "(5) Let's now evaluate these blocks by what races are present within them. Scale by number of families of races present: <button onclick='zall()' type='button'>All Population</button><button onclick='callEthnic(\"black\",0)' type='button'>Black</button><button onclick='callEthnic(\"white\",0)' type='button'>White</button><button onclick='callEthnic(\"Hisp\",0)' type='button'>Hispanic</button><button onclick='callEthnic(\"asian\",0)' type='button'>Asian</button><button onclick='callEthnic(\"two\",0)' type='button'>Two or more</button><button onclick='callEthnic(\"other\",0)' type='button'>Other</button> <a href='#'' onclick='ethnicity2()'> Next</a>"
   }
 
   function ethnicity2() {   
@@ -199,7 +181,7 @@ var context = document.getElementById("context")
       .transition()
       .style("opacity","1");
 
-    context.innerHTML = "(6) We've added points to show the average poverty proportion and school distance a family from each race is predicted to have. Filter again to see the corresponding average: <button onclick='zall()' type='button'>All Population</button><button onclick='callEthnic(\"black\",1)' type='button'>Black</button><button onclick='callEthnic(\"white\",1)' type='button'>White</button><button onclick='callEthnic(\"Hisp\",1)' type='button'>Hispanic</button><button onclick='callEthnic(\"asian\",1)' type='button'>Asian</button><button onclick='callEthnic(\"two\",1)' type='button'>Two or more</button><button onclick='callEthnic(\"other\",1)' type='button'>Other</button><a href='#'' onclick='conc1()'>Next</a>"
+    context.innerHTML = "(6) We've added points to show the average poverty proportion and school distance a family from each race is predicted to have. Filter again to see the corresponding average: <button onclick='zall()' type='button'>All Population</button><button onclick='callEthnic(\"black\",1)' type='button'>Black</button><button onclick='callEthnic(\"white\",1)' type='button'>White</button><button onclick='callEthnic(\"Hisp\",1)' type='button'>Hispanic</button><button onclick='callEthnic(\"asian\",1)' type='button'>Asian</button><button onclick='callEthnic(\"two\",1)' type='button'>Two or more</button><button onclick='callEthnic(\"other\",1)' type='button'>Other</button><a href='#'' onclick='conc1()'> Next</a>"
   }
 
   function conc1() {   
@@ -287,6 +269,8 @@ d3.csv("urban2.csv", function(error, data) {
   var averages =[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
 
   data.forEach(function(d) {
+    d.families_w_under18_belowpov = +d.families_w_under18_belowpov;
+    d.families_w_under18_abovepov = +d.families_w_under18_abovepov;
     d.ward = +d.ward;
     d.pov_prop = +d.pov_prop;
     d.grade_1_5_white = +d.grade_1_5_white;
@@ -369,15 +353,12 @@ d3.csv("urban2.csv", function(error, data) {
       .attr("class", "dot ethnic")
       .attr("id",function(d){ return "ethnic-" + d.race;})
       .attr("r", function(d) { 
-        // return 20;
         return d.population / 200;
       })
       .attr("cx", function(d) { return x(d.avdist); })
       .attr("cy", function(d) { return y(d.avpov); })
       .style("fill", function(d) { 
-        return "yellow";
-        // return color(d.race)
-        // return color(d.ward); 
+        return "yellow"; 
       });
 
     svg.append("line")
