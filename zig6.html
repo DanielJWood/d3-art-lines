@@ -22,13 +22,13 @@ layout: default
 
 <script>
   var k = 0;
-  var width = 700;
-  var height = 1800;
+  var width = 1000;
+  var height = 10000;
   // var n = 2*height + 2*width;  
   var minDir = 20;
   var lastDir = 0;
   var array = [];  
-  var jn = 50;
+  var jn = 10;
 
   var lineFunction = d3.svg.line()
     .x(function(d) { return d.x; })
@@ -47,15 +47,15 @@ layout: default
 
   for (var j = 0; j < jn; j++) {
     var x = ((width*j) / jn) + 0;
-    var n = (height / 2) + rnd2()*00;
+    var n = (height) + rnd2()*100;
     array.push([]);
-    for (var i = Math.floor(Math.random()*1000) ; i < n; i++) {
+    for (var i = Math.floor(Math.random()*00) ; i < n; i++) {
       lastDir += 1; 
       //if length is past the minimum, find out if you turn
       if (lastDir > minDir) {
         // using a normal distribution, choose to turn (should be hard at first, easy later, then hard/rare again)
         if (Math.random() < (lastDir-minDir)/30) {
-          array[j].push({"y":x,"x":i});
+          array[j].push({"x":x,"y":i});
           lastDir = 0; //restart the counter
           // decide left/right
           
@@ -67,12 +67,12 @@ layout: default
             var direction = boolean();          
           }      
           x += direction*Math.random()*40;
-          array[j].push({"y":x,"x":i});
+          array[j].push({"x":x,"y":i});
           if (Math.random()<0.90) {
             i += Math.floor(-1*Math.random()*20);
-            array[j].push({"y":x,"x":i});
+            array[j].push({"x":x,"y":i});
             x += -1*direction*Math.random()*20;
-            array[j].push({"y":x,"x":i});
+            array[j].push({"x":x,"y":i});
           } 
         }
       }
@@ -96,35 +96,29 @@ var lineGraph = svgContainer.selectAll("path")
     return lineFunction2(d)
   })
   .attr("stroke", function(d,i) {
-    // var c = (i*360)/(jn);
-    var c = 250 - (i*250)/(jn);
-    // return "hsl(" + c + ",100%,50%)"
-    return "rgb(" + c + ",100,100)"
+    var c = (i*360)/(jn);
+    // var c = 250 - (i*250)/(jn);
+    return "hsl(" + c + ",100%,50%)"
+    // return "rgb(" + c + ",100,100)"
   })
   .attr("stroke-width", 2)
   .attr("fill", "none")
-  .on("mouseover",function(d){
-
-    d3.select(this).transition().duration(1000)
-    .attr("stroke-width", 5)
-  })
-    .on("mouseout",function(d){
-   d3.select(this).transition().duration(3000).delay(2000)
-    .attr("stroke-width", 2)
-  });
-
+  .style("opacity",0.5)
+  
 
   // lineGraph.transition().delay(function(d,i){
   //   return 30*i;
-  // }).duration(3000).attr("d",function(d){
+  // }).delay(2000).duration(10000).ease("linear")
+  // .attr("d",function(d){
   //   for (var i = 0; i < d.length; i++) {
   //     var xx = d[i].x;
   //     var yy = d[i].y;
-  //     d[i].y = xx * 0.8;
-  //     d[i].x = yy + 300;
+  //     d[i].y = xx * 3 + Math.random()*100;
+  //     d[i].x = yy + Math.random()*100;
   //   }
   //   return lineFunction2(d)
   // })
+  // .style("opacity",.1)
 
 
   function change() {  

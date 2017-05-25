@@ -1,0 +1,51 @@
+---
+layout: default
+---
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+  body {
+    font: 10px sans-serif;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .dot {
+    opacity: 0.75;
+  }
+
+  .dot.average {
+    opacity: 1;
+    stroke: #000;
+  }
+</style>
+<body>
+This is my example of a chart I would use to investigate the school distance data.<br>
+Filter by number of families of ethnicities present:<button onclick="home()" type="button">All Population</button>
+<button onclick="black()" type="button">Black</button>
+<button onclick="white()" type="button">White</button>
+<button onclick="hispanic()" type="button">Hispanic</button>
+<button onclick="asian()" type="button">Asian</button>
+<button onclick="two()" type="button">Two or more</button>
+<button onclick="other()" type="button">Other</button>
+<br>
+Filter by Ward:<button onclick="noward()" type="button">All Wards</button>
+<button onclick="ward(1)" type="button">Ward 1</button>
+<button onclick="ward(2)" type="button">Ward 2</button>
+<button onclick="ward(3)" type="button">Ward 3</button>
+<button onclick="ward(4)" type="button">Ward 4</button>
+<button onclick="ward(5)" type="button">Ward 5</button>
+<button onclick="ward(6)" type="button">Ward 6</button>
+<button onclick="ward(7)" type="button">Ward 7</button>
+<button onclick="ward(8)" type="button">Ward 8</button>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+
+</script>

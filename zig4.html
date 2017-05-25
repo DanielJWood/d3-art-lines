@@ -22,13 +22,13 @@ layout: default
 
 <script>
   var k = 0;
-  var width = 700;
-  var height = 1800;
+  var width = 1000;
+  var height = 1000;
   // var n = 2*height + 2*width;  
   var minDir = 20;
   var lastDir = 0;
   var array = [];  
-  var jn = 50;
+  var jn = 100;
 
   var lineFunction = d3.svg.line()
     .x(function(d) { return d.x; })
@@ -40,6 +40,17 @@ layout: default
     .y(function(d) { return d.y; })
     .interpolate("basis");
 
+  var lineFunction3 = d3.svg.line()
+    .x(function(d) { return d.x; })
+    .y(function(d) { return d.y; })
+    .interpolate("step-before");
+
+  var lineFunction4 = d3.svg.line()
+    .x(function(d) { return d.x; })
+    .y(function(d) { return d.y; })
+    .interpolate("step-after");
+
+
   //The SVG Container
   var svgContainer = d3.select("body").append("svg")
     .attr("width", width)
@@ -47,15 +58,15 @@ layout: default
 
   for (var j = 0; j < jn; j++) {
     var x = ((width*j) / jn) + 0;
-    var n = (height / 2) + rnd2()*00;
+    var n = (height / 2) + rnd2()*100;
     array.push([]);
-    for (var i = Math.floor(Math.random()*1000) ; i < n; i++) {
+    for (var i = Math.floor(Math.random()*00) ; i < n; i++) {
       lastDir += 1; 
       //if length is past the minimum, find out if you turn
       if (lastDir > minDir) {
         // using a normal distribution, choose to turn (should be hard at first, easy later, then hard/rare again)
         if (Math.random() < (lastDir-minDir)/30) {
-          array[j].push({"y":x,"x":i});
+          array[j].push({"x":x,"y":i});
           lastDir = 0; //restart the counter
           // decide left/right
           
@@ -67,12 +78,12 @@ layout: default
             var direction = boolean();          
           }      
           x += direction*Math.random()*40;
-          array[j].push({"y":x,"x":i});
+          array[j].push({"x":x,"y":i});
           if (Math.random()<0.90) {
             i += Math.floor(-1*Math.random()*20);
-            array[j].push({"y":x,"x":i});
+            array[j].push({"x":x,"y":i});
             x += -1*direction*Math.random()*20;
-            array[j].push({"y":x,"x":i});
+            array[j].push({"x":x,"y":i});
           } 
         }
       }
@@ -96,47 +107,68 @@ var lineGraph = svgContainer.selectAll("path")
     return lineFunction2(d)
   })
   .attr("stroke", function(d,i) {
-    // var c = (i*360)/(jn);
-    var c = 250 - (i*250)/(jn);
-    // return "hsl(" + c + ",100%,50%)"
-    return "rgb(" + c + ",100,100)"
+    var c = (i*360)/(jn);
+    // var c = 250 - (i*250)/(jn);
+    return "hsl(" + c + ",100%,50%)"
+    // return "rgb(" + c + ",100,100)"
   })
   .attr("stroke-width", 2)
   .attr("fill", "none")
+  .style("opacity",0.5)
   .on("mouseover",function(d){
 
-    d3.select(this).transition().duration(1000)
+    d3.select(this).transition().duration(800).ease("elastic")
     .attr("stroke-width", 5)
-  })
+    .attr("d",function(d){
+      for (var i = 0; i < d.length; i++) {
+        var xx = d[i].x;
+        var yy = d[i].y;
+        d[i].y = yy * 1.08;
+        d[i].x = xx + (boolean()+20);
+      }
+        return lineFunction(d)
+      })
+    })
     .on("mouseout",function(d){
-   d3.select(this).transition().duration(3000).delay(2000)
-    .attr("stroke-width", 2)
-  });
+     d3.select(this).transition().duration(800).delay(800).ease("elastic")
+      .attr("stroke-width", 2)
+      .attr("d",function(d){
+        for (var i = 0; i < d.length; i++) {
+          var xx = d[i].x;
+          var yy = d[i].y;
+          d[i].y = yy / 1.08;
+          d[i].x = xx - (boolean()+20);
+        }
+          return lineFunction2(d)
+        })
+    });
 
 
-  // lineGraph.transition().delay(function(d,i){
-  //   return 30*i;
-  // }).duration(3000).attr("d",function(d){
-  //   for (var i = 0; i < d.length; i++) {
-  //     var xx = d[i].x;
-  //     var yy = d[i].y;
-  //     d[i].y = xx * 0.8;
-  //     d[i].x = yy + 300;
-  //   }
-  //   return lineFunction2(d)
-  // })
+  lineGraph.transition().delay(function(d,i){
+    return 30*i;
+  }).duration(3000).ease("bounce")
+  .attr("d",function(d){
+    for (var i = 0; i < d.length; i++) {
+      var xx = d[i].x;
+      var yy = d[i].y;
+      d[i].y = xx * 0.8;
+      d[i].x = yy + 300;
+    }
+    return lineFunction(d)
+  })
+  // .style("opacity",.1)
 
 
   function change() {  
     if (k === 0) {
       k+=1;
       lineGraph.transition().duration(0).attr("d", function(d) {
-        return lineFunction(d)
+        return lineFunction4(d)
       })
     } else if (k === 1) {
       k-=1;
       lineGraph.transition().duration(0).attr("d", function(d) {
-        return lineFunction2(d)
+        return lineFunction3(d)
       })
     }
 
